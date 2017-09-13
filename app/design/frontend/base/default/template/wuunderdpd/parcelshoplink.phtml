@@ -8,7 +8,7 @@
     <script type="text/javascript">
         var dpdconfig = <?php echo $this->getConfig() ?>;
         <?php if(Mage::helper('wuunderconnector')->getIsOnestepCheckout()): ?>
-        window.dpdShipping = new DPD.Shipping('#checkout-shipping-method-load', dpdconfig);
+        window.dpdShipping = new DPD.Shipping('checkout-shipping-method-load', dpdconfig);
         <?php else: ?>
         window.dpdShipping = new DPD.Shipping('checkout-shipping-method-load', dpdconfig);
         <?php endif; ?>

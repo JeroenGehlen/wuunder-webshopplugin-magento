@@ -8,7 +8,6 @@ DPD.Shipping.addMethods({
         else {
             this.container = $(container);
         }
-        console.log($(container));
         this.config = config;
         this.showParcelsLinkClick = this.displayParcelsInline.bind(this);
         this.saveParcelShopClick = this.saveParcelShop.bind(this);
@@ -30,7 +29,7 @@ DPD.Shipping.addMethods({
             setTimeout(function () {
                 parent.Windows.close("DPD_window", evt);
             }, 1);
-            this.container = window.parent.document.getElementsByClassName('onestepcheckout-shipping-method-block')[0];
+            this.container = window.parent.document.getElementById('checkout-shipping-method-load');
         }
         else {
             var shopId = evt.target.id;
