@@ -25,8 +25,8 @@
 .parcelshopwrapper .dpd_close_map{float: right;margin-right: 20px;margin-top: 5px;margin-bottom: 5px;}
 .dpderror{text-align: center; margin-top: 30%;}
 .dpderror img{padding-bottom: 15px;}
-.onestepcheckout-shipping-method-block img.parcelshoplogo{display:none;}
-.onestepcheckout-shipping-method-block .parcelshopwrapper .extrainfowrapper{z-index:2;}
-.onestepcheckout-shipping-method-block .parcelshopwrapper ul li{padding:0px;}
-.onestepcheckout-shipping-method-block .parcelshopwrapper ul {padding-top:5px; padding-bottom:5px;}
-.onestepcheckout-shipping-method-block .parcelshopwrapper ul li.dpdinfo{font-weight:bold;}
+#onestepcheckout-form #checkout-shipping-method-load img.parcelshoplogo{display:none;}
+#onestepcheckout-form #checkout-shipping-method-load .parcelshopwrapper .extrainfowrapper{z-index:2;}
+#onestepcheckout-form #checkout-shipping-method-load .parcelshopwrapper ul li{padding:0px;}
+#onestepcheckout-form #checkout-shipping-method-load .parcelshopwrapper ul {padding-top:5px; padding-bottom:5px;}
+#onestepcheckout-form #checkout-shipping-method-load .parcelshopwrapper ul li.dpdinfo{font-weight:bold;}

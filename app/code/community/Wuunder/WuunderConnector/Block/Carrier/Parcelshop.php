@@ -46,7 +46,12 @@ class Wuunder_WuunderConnector_Block_Carrier_Parcelshop extends Mage_Core_Block_
      */
     public function getParcelShops()
     {
-        $coordinates = explode(',', Mage::helper('wuunderconnector')->getGoogleMapsCenter());
+
+        $address = Mage::getModel('checkout/session')->getQuote()->getShippingAddress();
+        if ($address->getPostcode() == "" || $address->getPostcode() == "-") {
+            $address = Mage::getModel('checkout/session')->getQuote()->getBillingAddress();
+        }
+        $coordinates = explode(',', Mage::helper('wuunderconnector')->getGoogleMapsCenter($address->getPostcode(), $address->getCountry()));
         $parcelshops = Mage::getSingleton('wuunderconnector/dpdwebservice')->getParcelShops($coordinates[1], $coordinates[0]);
         return $parcelshops;
     }
@@ -58,7 +63,11 @@ class Wuunder_WuunderConnector_Block_Carrier_Parcelshop extends Mage_Core_Block_
      */
     public function getConfig()
     {
-        $center = explode(",", Mage::helper('wuunderconnector')->getGoogleMapsCenter());
+        $address = Mage::getModel('checkout/session')->getQuote()->getShippingAddress();
+        if ($address->getPostcode() == "" || $address->getPostcode() == "-") {
+            $address = Mage::getModel('checkout/session')->getQuote()->getBillingAddress();
+        }
+        $center = explode(",", Mage::helper('wuunderconnector')->getGoogleMapsCenter($address->getPostcode(), $address->getCountry()));
         $this->_configArray["saveParcelUrl"] = $this->getUrl('wuunderconnector/ajax/saveparcel', array('_secure' => true));
         $this->_configArray["invalidateParcelUrl"] = $this->getUrl('wuunderconnector/ajax/invalidateparcel', array('_secure' => true));
         $this->_configArray["windowParcelUrl"] = $this->getUrl('wuunderconnector/ajax/windowindex', array('_secure' => true));

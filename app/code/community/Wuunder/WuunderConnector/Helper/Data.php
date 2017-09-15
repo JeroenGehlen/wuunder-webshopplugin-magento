@@ -590,19 +590,19 @@ class Wuunder_WuunderConnector_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return string
      */
-    public function getGoogleMapsCenter()
+    public function getGoogleMapsCenter($postcode, $country)
     {
-        $address = Mage::getModel('checkout/cart')->getQuote()->getShippingAddress();
-        $addressToInsert = $address->getStreet(1) . " ";
-        if ($address->getStreet(2)) {
-            $addressToInsert .= $address->getStreet(2) . " ";
-        }
-        $addressToInsert .= $address->getPostcode() . " " . $address->getCity() . " " . $address->getCountry();
+        $addressToInsert = $postcode . " " . $country;
         $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($addressToInsert) . '&sensor=false';
         $source = file_get_contents($url);
         $obj = json_decode($source);
-        $LATITUDE = $obj->results[0]->geometry->location->lat;
-        $LONGITUDE = $obj->results[0]->geometry->location->lng;
+        if (count($obj->results)) {
+            $LATITUDE = $obj->results[0]->geometry->location->lat;
+            $LONGITUDE = $obj->results[0]->geometry->location->lng;
+        } else {
+            $LATITUDE = 0;
+            $LONGITUDE = 0;
+        }
         return $LATITUDE . ',' . $LONGITUDE;
     }
 

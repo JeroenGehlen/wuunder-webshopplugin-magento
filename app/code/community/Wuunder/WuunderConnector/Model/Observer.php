@@ -99,9 +99,7 @@ class Wuunder_WuunderConnector_Model_Observer extends Varien_Event_Observer
      */
     public function coreBlockAbstractToHtmlAfter($observer)
     {
-//        Mage::helper('wuunderconnector')->log($observer->getBlock());
         if ($observer->getBlock() instanceof Mage_Checkout_Block_Onepage_Shipping_Method_Available) {
-//        Mage::helper('wuunderconnector')->log("HERE");
             //get HTML
             $html = $observer->getTransport()->getHtml();
             //set default if in config
@@ -123,7 +121,11 @@ class Wuunder_WuunderConnector_Model_Observer extends Varien_Event_Observer
     {
         $quote = Mage::getSingleton('checkout/session')->getQuote();
         $address = $quote->getShippingAddress();
+
         if ($address->getShippingMethod() == "wuunderdpd_wuunderdpd") {
+            if ($address->getPostcode() == "" || $address->getPostcode() == "-") {
+                $address = $quote()->getBillingAddress();
+            }
             $address->unsetAddressId()
                 ->unsetTelephone()
                 ->setSaveInAddressBook(0)
@@ -160,7 +162,16 @@ class Wuunder_WuunderConnector_Model_Observer extends Varien_Event_Observer
         if (Mage::helper('wuunderconnector')->getIsOnestepCheckout()) {
             $quote = Mage::getSingleton('checkout/session')->getQuote();
             $address = $quote->getShippingAddress();
+            Mage::helper('wuunderconnector')->log("START DEBUG");
+            Mage::helper('wuunderconnector')->log($address->getShippingMethod());
+            Mage::helper('wuunderconnector')->log((bool)$quote->getDpdSelected());
             if ($address->getShippingMethod() == "wuunderdpd_wuunderdpd" && (bool)$quote->getDpdSelected()) {
+                Mage::helper('wuunderconnector')->log($address->getPostcode());
+                if ($address->getPostcode() == "" || $address->getPostcode() == "-") {
+                    $address = $quote()->getBillingAddress();
+                    Mage::helper('wuunderconnector')->log("IN");
+                    Mage::helper('wuunderconnector')->log($address);
+                }
                 $address->unsetAddressId()
                     ->unsetTelephone()
                     ->setSaveInAddressBook(0)
